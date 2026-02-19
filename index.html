@@ -1,0 +1,1398 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inteligência Artificial: O Futuro da Psicologia</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        indigo: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            200: '#c7d2fe',
+                            300: '#a5b4fc',
+                            400: '#818cf8',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                            900: '#312e81',
+                            950: '#1e1b4b',
+                        },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        :root {
+            --bg-glow: radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 80%);
+        }
+
+        body {
+            background-color: #0f172a;
+            color: #f8fafc;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        .glass {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .custom-cursor {
+            width: 20px;
+            height: 20px;
+            background: #6366f1;
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.1s ease-out, background 0.3s ease;
+            mix-blend-mode: difference;
+        }
+
+        .custom-cursor-follower {
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(99, 102, 241, 0.5);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.15s ease-out;
+        }
+
+        .section-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .glow-hover {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glow-hover::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .glow-hover:hover::after {
+            opacity: 1;
+        }
+
+        .timeline-line {
+            height: 0;
+            transition: height 1s ease;
+        }
+
+        /* Ambient Background */
+        .ambient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: var(--bg-glow);
+            filter: blur(100px);
+        }
+
+        /* Hide scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0f172a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #334155;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #475569;
+        }
+    </style>
+</head>
+
+<body class="font-sans antialiased">
+    <div class="ambient-bg" id="ambient-bg"></div>
+    <div class="custom-cursor" id="cursor"></div>
+    <div class="custom-cursor-follower" id="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav
+        class="fixed top-0 w-full z-50 px-6 py-4 glass mt-4 mx-auto max-w-7xl left-1/2 -translate-x-1/2 rounded-2xl flex justify-between items-center hidden md:flex">
+        <a href="#hero" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <img src="./logoStartup_tr.png" alt="Logo Startup" class="h-10 w-auto object-contain">
+        </a>
+        <div class="flex gap-8 text-sm font-medium">
+            <a href="#autor" class="hover:text-indigo-400 transition-colors">Apresentação</a>
+            <a href="#hero" class="hover:text-indigo-400 transition-colors">Início</a>
+            <a href="#importancia" class="hover:text-indigo-400 transition-colors">Importância</a>
+            <a href="#historia" class="hover:text-indigo-400 transition-colors">História</a>
+            <a href="#conceitos" class="hover:text-indigo-400 transition-colors">Conceitos</a>
+            <a href="#ferramentas" class="hover:text-indigo-400 transition-colors">Ferramentas</a>
+            <a href="#prompts" class="hover:text-indigo-400 transition-colors">Engenharia de Prompts</a>
+            <a href="#uso-pratico" class="hover:text-indigo-400 transition-colors">Uso Prático</a>
+            <a href="#passo-a-passo" class="hover:text-indigo-400 transition-colors">Como Começar</a>
+            <a href="#etica" class="hover:text-indigo-400 transition-colors">Ética</a>
+        </div>
+    </nav>
+    <main class="max-w-7xl mx-auto px-6 space-y-32">
+        <!-- Apresentação do Autor -->
+        <section id="autor" class="section-reveal flex items-center justify-center pt-32">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div class="relative group max-w-sm mx-auto">
+                    <div
+                        class="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000">
+                    </div>
+                    <img src="./neimar_machado.jpeg" alt="Neimar da Silva Machado"
+                        class="relative rounded-2xl w-full h-[500px] object-cover shadow-2xl border border-white/10">
+                </div>
+                <div>
+                    <h2 class="text-4xl md:text-6xl font-display font-black mb-8 leading-tight">
+                        Neimar da Silva <br /><span class="text-indigo-500 italic">Machado</span>
+                    </h2>
+                    <ul class="space-y-6">
+                        <li class="flex items-center gap-4 text-xl md:text-2xl text-slate-300">
+                            <div class="p-3 bg-pink-500/10 text-pink-500 rounded-xl">
+                                <i data-lucide="heart" class="w-6 h-6"></i>
+                            </div>
+                            Casado, pai do Raul e da Laura
+                        </li>
+                        <li class="flex items-center gap-4 text-xl md:text-2xl text-slate-300">
+                            <div class="p-3 bg-indigo-500/10 text-indigo-400 rounded-xl">
+                                <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                            </div>
+                            Educador de Tecnologia na Escola StartUP
+                        </li>
+                        <li class="flex items-center gap-4 text-xl md:text-2xl text-slate-300">
+                            <div class="p-3 bg-purple-500/10 text-purple-400 rounded-xl">
+                                <i data-lucide="database" class="w-6 h-6"></i>
+                            </div>
+                            Cientista de Dados
+                        </li>
+                        <li class="flex items-center gap-4 text-xl md:text-2xl text-slate-300">
+                            <div class="p-3 bg-amber-500/10 text-amber-500 rounded-xl">
+                                <i data-lucide="sparkles" class="w-6 h-6"></i>
+                            </div>
+                            Entusiasta da IA
+                        </li>
+                    </ul>
+                    <!-- LinkedIn Link -->
+                    <div class="mt-10">
+                        <a href="https://linkedin.com/in/neimarsmachado" target="_blank" rel="noopener noreferrer"
+                            class="inline-flex items-center gap-3 px-6 py-3 bg-[#0077b5] hover:bg-[#0077b5]/80 text-white rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg">
+                            <i data-lucide="linkedin" class="w-5 h-5"></i>
+                            Conectar no LinkedIn
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hero Section -->
+        <header id="hero" class="min-h-screen flex flex-col items-center justify-center text-center px-4 relative">
+            <div class="absolute inset-0 z-0 overflow-hidden">
+                <div id="hero-particles" class="opacity-30"></div>
+            </div>
+
+            <div class="z-10 max-w-5xl">
+
+                <h1 class="text-6xl md:text-8xl font-display font-black mb-8 leading-tight">
+                    INTELIGÊNCIA <br />
+                    <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">ARTIFICIAL</span>
+                </h1>
+
+                <p class="text-xl md:text-2xl text-slate-400 font-light mb-12 max-w-3xl mx-auto leading-relaxed">
+                    Entendendo a tecnologia que está redesenhando as fronteiras da mente e da sociedade.
+                </p>
+
+                <a href="#importancia"
+                    class="inline-flex items-center gap-3 px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full font-bold transition-all transform hover:scale-105 shadow-lg shadow-indigo-500/25">
+                    Começar Jornada <i data-lucide="arrow-down-circle"></i>
+                </a>
+            </div>
+        </header>
+
+        <!-- Importância -->
+        <section id="importancia" class="section-reveal">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-display font-extrabold mb-6">Por que isso <span
+                        class="text-indigo-500 underline decoration-indigo-500/30 underline-offset-8">importa?</span>
+                </h2>
+                <p class="text-lg text-slate-400 max-w-2xl mx-auto italic">"A IA não é sobre máquinas substituindo
+                    pessoas, é sobre o mundo onde quem você acolhe já vive."</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <a href="https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial#Aplica%C3%A7%C3%B5es"
+                    target="_blank" rel="noopener noreferrer"
+                    class="glass p-8 rounded-3xl glow-hover group hover:-translate-y-2 transition-transform duration-300 block">
+                    <div
+                        class="w-14 h-14 bg-indigo-500/10 text-indigo-400 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="users"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">No Cotidiano</h3>
+                    <p class="text-slate-400 leading-relaxed mb-6">A IA molda comportamentos e percepções nas redes
+                        sociais de quem você atende.</p>
+                    <span class="text-indigo-400 flex items-center gap-2 font-bold group-hover:underline">Explorar
+                        <i data-lucide="external-link" class="w-4 h-4"></i></span>
+                </a>
+
+                <a href="https://pt.wikipedia.org/wiki/%C3%89tica_na_intelig%C3%AAncia_artificial" target="_blank"
+                    rel="noopener noreferrer"
+                    class="glass p-8 rounded-3xl glow-hover group hover:-translate-y-2 transition-transform duration-300 block">
+                    <div
+                        class="w-14 h-14 bg-purple-500/10 text-purple-400 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="briefcase"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Nas Decisões</h3>
+                    <p class="text-slate-400 leading-relaxed mb-6">Algoritmos definem hoje prioridades em saúde, crédito
+                        e até oportunidades de emprego.</p>
+                    <span class="text-purple-400 flex items-center gap-2 font-bold group-hover:underline">Explorar
+                        <i data-lucide="external-link" class="w-4 h-4"></i></span>
+                </a>
+
+                <a href="https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial#Contexto_social" target="_blank"
+                    rel="noopener noreferrer"
+                    class="glass p-8 rounded-3xl glow-hover group hover:-translate-y-2 transition-transform duration-300 block">
+                    <div
+                        class="w-14 h-14 bg-pink-500/10 text-pink-400 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <i data-lucide="brain"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Ambiente Social</h3>
+                    <p class="text-slate-400 leading-relaxed mb-6">Compreender a tecnologia é fundamental para entender
+                        o ambiente social contemporâneo.</p>
+                    <span class="text-pink-400 flex items-center gap-2 font-bold group-hover:underline">Explorar
+                        <i data-lucide="external-link" class="w-4 h-4"></i></span>
+                </a>
+            </div>
+
+            <!-- Brand Illustration Logos -->
+            <div class="mt-24 pt-16 border-t border-slate-800">
+                <p class="text-center text-slate-500 text-sm font-bold uppercase tracking-[0.3em] mb-12">
+                    Algoritmos que já fazem parte do seu dia a dia
+                </p>
+                <div class="flex flex-wrap justify-center items-center gap-12 md:gap-24 transition-all duration-700">
+                    <a href="https://www.netflix.com" target="_blank" rel="noopener noreferrer"
+                        class="hover:scale-110 transition-transform">
+                        <img src="./logo_netflix.png" alt="Netflix" class="h-10 md:h-16 w-auto object-contain">
+                    </a>
+                    <a href="https://www.spotify.com" target="_blank" rel="noopener noreferrer"
+                        class="hover:scale-110 transition-transform">
+                        <img src="./logo_spotify.png" alt="Spotify" class="h-10 md:h-16 w-auto object-contain">
+                    </a>
+                    <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer"
+                        class="hover:scale-110 transition-transform">
+                        <img src="./Youtube.png" alt="YouTube" class="h-10 md:h-16 w-auto object-contain">
+                    </a>
+                    <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer"
+                        class="hover:scale-110 transition-transform">
+                        <img src="./logo_linkedin.png" alt="LinkedIn" class="h-10 md:h-16 w-auto object-contain">
+                    </a>
+                    <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer"
+                        class="hover:scale-110 transition-transform">
+                        <img src="./logo_instagram.png" alt="Instagram" class="h-10 md:h-16 w-auto object-contain">
+                    </a>
+                    <a href="https://www.santander.com.br" target="_blank" rel="noopener noreferrer"
+                        class="hover:scale-110 transition-transform">
+                        <img src="./santander.png" alt="Santander" class="h-10 md:h-16 w-auto object-contain">
+                    </a>
+                    <a href="https://www.mercadolivre.com.br" target="_blank" rel="noopener noreferrer"
+                        class="hover:scale-110 transition-transform">
+                        <img src="./mercado.png" alt="Mercado Livre" class="h-10 md:h-16 w-auto object-contain">
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contexto Histórico -->
+        <section id="historia" class="section-reveal">
+            <div class="text-center mb-24">
+                <h2 class="text-4xl md:text-5xl font-display font-extrabold mb-6">O Contexto <span
+                        class="text-indigo-500 italic">Histórico</span></h2>
+                <p class="text-lg text-slate-400">Uma evolução de décadas que chegou ao consultório hoje.</p>
+            </div>
+
+            <div class="relative space-y-24">
+                <div
+                    class="absolute left-1/2 -translate-x-1/2 top-0 w-1 bg-indigo-500/20 h-full rounded-full overflow-hidden">
+                    <div id="timeline-progress" class="w-full bg-indigo-500 h-0 transition-all duration-300"></div>
+                </div>
+
+                <!-- Event 1 -->
+                <div class="relative flex items-center justify-between flex-col md:flex-row gap-8">
+                    <div class="md:w-[45%] text-right hidden md:block">
+                        <span class="text-5xl font-display font-black text-indigo-500/20">1950</span>
+                    </div>
+                    <div
+                        class="z-10 w-6 h-6 rounded-full bg-indigo-600 border-4 border-slate-900 shadow-xl shadow-indigo-500/40">
+                    </div>
+                    <a href="https://pt.wikipedia.org/wiki/Alan_Turing" target="_blank" rel="noopener noreferrer"
+                        class="md:w-[45%] glass p-8 rounded-3xl hover:bg-white/5 transition-colors block group">
+                        <span class="text-indigo-500 font-bold mb-2 inline-block md:hidden">1950</span>
+                        <h4 class="text-xl font-bold mb-2 flex items-center justify-between">Alan Turing <i
+                                data-lucide="external-link" class="w-4 h-4 opacity-0 group-hover:opacity-50"></i></h4>
+                        <p class="text-slate-400">Criação do Teste de Turing para definir máquinas pensantes.</p>
+                    </a>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="relative flex items-center justify-between flex-col md:flex-row-reverse gap-8">
+                    <div class="md:w-[45%] text-left hidden md:block">
+                        <span class="text-5xl font-display font-black text-indigo-500/20">1956</span>
+                    </div>
+                    <div
+                        class="z-10 w-6 h-6 rounded-full bg-indigo-600 border-4 border-slate-900 shadow-xl shadow-indigo-500/40">
+                    </div>
+                    <a href="https://home.dartmouth.edu/about/artificial-intelligence-ai-coined-dartmouth"
+                        target="_blank" rel="noopener noreferrer"
+                        class="md:w-[45%] glass p-8 rounded-3xl hover:bg-white/5 transition-colors block group text-left">
+                        <span class="text-indigo-500 font-bold mb-2 inline-block md:hidden">1956</span>
+                        <h4 class="text-xl font-bold mb-2 flex items-center justify-between">Conferência de Dartmouth <i
+                                data-lucide="external-link" class="w-4 h-4 opacity-0 group-hover:opacity-50"></i></h4>
+                        <p class="text-slate-400">Nascimento oficial do termo "Inteligência Artificial".</p>
+                    </a>
+                </div>
+
+                <!-- Event 3: Deep Blue (1997) -->
+                <div class="relative flex items-center justify-between flex-col md:flex-row gap-8">
+                    <div class="md:w-[45%] text-right hidden md:block">
+                        <span class="text-5xl font-display font-black text-indigo-500/20">1997</span>
+                    </div>
+                    <div
+                        class="z-10 w-6 h-6 rounded-full bg-indigo-600 border-4 border-slate-900 shadow-xl shadow-indigo-500/40">
+                    </div>
+                    <a href="https://www.chess.com/pt/article/view/kasparov-vs-deep-blue-o-confronto-que-mudou-a-historia"
+                        target="_blank" rel="noopener noreferrer"
+                        class="md:w-[45%] glass p-8 rounded-3xl hover:bg-white/5 transition-colors block group">
+                        <span class="text-indigo-500 font-bold mb-2 inline-block md:hidden">1997</span>
+                        <h4 class="text-xl font-bold mb-2 flex items-center justify-between">Deep Blue vs Kasparov <i
+                                data-lucide="external-link" class="w-4 h-4 opacity-0 group-hover:opacity-50"></i></h4>
+                        <p class="text-slate-400">Pela primeira vez, um computador vence o campeão mundial de xadrez.
+                        </p>
+                    </a>
+                </div>
+
+                <!-- Event 4: Deep Learning (2012) -->
+                <div class="relative flex items-center justify-between flex-col md:flex-row-reverse gap-8">
+                    <div class="md:w-[45%] text-left hidden md:block">
+                        <span class="text-5xl font-display font-black text-indigo-500/20">2012</span>
+                    </div>
+                    <div
+                        class="z-10 w-6 h-6 rounded-full bg-indigo-600 border-4 border-slate-900 shadow-xl shadow-indigo-500/40">
+                    </div>
+                    <a href="https://pt.wikipedia.org/wiki/Aprendizagem_profunda" target="_blank"
+                        rel="noopener noreferrer"
+                        class="md:w-[45%] glass p-8 rounded-3xl hover:bg-white/5 transition-colors block group text-left">
+                        <span class="text-indigo-500 font-bold mb-2 inline-block md:hidden">2012</span>
+                        <h4 class="text-xl font-bold mb-2 flex items-center justify-between">Revolução Deep Learning <i
+                                data-lucide="external-link" class="w-4 h-4 opacity-0 group-hover:opacity-50"></i></h4>
+                        <p class="text-slate-400">O projeto AlexNet prova o poder das redes neurais profundas na visão
+                            computacional.</p>
+                    </a>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="relative flex items-center justify-between flex-col md:flex-row gap-8">
+                    <div class="md:w-[45%] text-right hidden md:block">
+                        <span class="text-5xl font-display font-black text-indigo-500/20">2022</span>
+                    </div>
+                    <div
+                        class="z-10 w-6 h-6 rounded-full bg-indigo-600 border-4 border-slate-900 shadow-xl shadow-indigo-500/40">
+                    </div>
+                    <a href="https://pt.wikipedia.org/wiki/ChatGPT" target="_blank" rel="noopener noreferrer"
+                        class="md:w-[45%] glass p-8 rounded-3xl hover:bg-white/5 transition-colors block group">
+                        <span class="text-indigo-500 font-bold mb-2 inline-block md:hidden">2022</span>
+                        <h4 class="text-xl font-bold mb-2 flex items-center justify-between">Revolução ChatGPT <i
+                                data-lucide="external-link" class="w-4 h-4 opacity-0 group-hover:opacity-50"></i></h4>
+                        <p class="text-slate-400">A IA torna-se acessível e onipresente para o grande público.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conceitos -->
+        <section id="conceitos" class="section-reveal">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-4xl md:text-5xl font-display font-extrabold mb-8 leading-tight">
+                        Conceitos que você <br /> <span class="text-indigo-500 italic">precisa</span> saber
+                    </h2>
+                    <div class="space-y-6">
+                        <a href="https://pt.wikipedia.org/wiki/Intelig%C3%AAncia_artificial" target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex gap-6 group cursor-pointer p-4 hover:bg-white/5 rounded-2xl transition-colors block">
+                            <div
+                                class="min-w-[64px] h-16 rounded-2xl glass flex items-center justify-center group-hover:bg-indigo-500/20 transition-colors">
+                                <i data-lucide="cpu" class="text-indigo-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">Definição de IA</h4>
+                                <p class="text-slate-400 leading-relaxed">Máquinas processando texto, imagens e tomando
+                                    decisões baseadas em padrões.</p>
+                            </div>
+                        </a>
+                        <a href="https://pt.wikipedia.org/wiki/Aprendizado_de_m%C3%A1quina" target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex gap-6 group cursor-pointer p-4 hover:bg-white/5 rounded-2xl transition-colors block">
+                            <div
+                                class="min-w-[64px] h-16 rounded-2xl glass flex items-center justify-center group-hover:bg-purple-500/20 transition-colors">
+                                <i data-lucide="zap" class="text-purple-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">Machine Learning</h4>
+                                <p class="text-slate-400 leading-relaxed">A arte de ensinar máquinas a aprender através
+                                    de exemplos, como uma criança.</p>
+                            </div>
+                        </a>
+                        <a href="https://pt.wikipedia.org/wiki/Modelo_de_linguagem_grande" target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex gap-6 group cursor-pointer p-4 hover:bg-white/5 rounded-2xl transition-colors block">
+                            <div
+                                class="min-w-[64px] h-16 rounded-2xl glass flex items-center justify-center group-hover:bg-pink-500/20 transition-colors">
+                                <i data-lucide="message-square" class="text-pink-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">LLMs (ChatGPT, etc)</h4>
+                                <p class="text-slate-400 leading-relaxed">Modelos de linguagem treinados em quase todo o
+                                    texto escrito pela humanidade.</p>
+                            </div>
+                        </a>
+                        <a href="https://pt.wikipedia.org/wiki/Agente_inteligente" target="_blank"
+                            rel="noopener noreferrer"
+                            class="flex gap-6 group cursor-pointer p-4 hover:bg-white/5 rounded-2xl transition-colors block">
+                            <div
+                                class="min-w-[64px] h-16 rounded-2xl glass flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
+                                <i data-lucide="workflow" class="text-amber-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-xl font-bold mb-1">Agentes Inteligentes</h4>
+                                <p class="text-slate-400 leading-relaxed">Sistemas que percebem o ambiente e agem de
+                                    forma autônoma para atingir objetivos.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <!-- Visual Analogy -->
+                <div class="relative">
+                    <div
+                        class="glass p-1 rounded-3xl overflow-hidden aspect-square flex items-center justify-center relative">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 to-transparent"></div>
+                        <div class="text-center p-12">
+                            <i data-lucide="brain-circuit"
+                                class="w-32 h-32 text-indigo-500 mx-auto mb-8 animate-pulse"></i>
+                            <p class="text-2xl font-display font-medium leading-relaxed italic">
+                                "É como um estagiário incrivelmente rápido que leu bilhões de prontuários, mas não tem
+                                empatia nata."
+                            </p>
+                        </div>
+                    </div>
+                    <!-- Absolute tags -->
+                    <div
+                        class="absolute -top-4 -right-4 glass px-4 py-2 rounded-xl text-sm font-bold border-indigo-500/30">
+                        Conhecimento</div>
+                    <div
+                        class="absolute -bottom-4 -left-4 glass px-4 py-2 rounded-xl text-sm font-bold border-pink-500/30">
+                        Processamento</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ferramentas Categorizadas -->
+        <section id="ferramentas" class="section-reveal">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-display font-extrabold mb-6">Ecossistema de <span
+                        class="bg-indigo-600 px-3 rounded-lg skew-x-[-3deg] inline-block">IA 2026</span></h2>
+                <p class="text-slate-400">As ferramentas mais potentes organizadas por categoria.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Categoria 1: Chatbots -->
+                <div class="glass p-8 rounded-3xl border-t-4 border-indigo-500 glow-hover">
+                    <div class="flex items-center gap-3 mb-6">
+                        <i data-lucide="message-circle" class="text-indigo-400"></i>
+                        <h4 class="text-lg font-bold uppercase tracking-tight">Chatbots & Raciocínio</h4>
+                    </div>
+                    <ul class="space-y-4">
+                        <li><a href="https://chatgpt.com" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">ChatGPT
+                                    (o3)</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Gemini
+                                    (Multimodal)</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://claude.ai" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Claude
+                                    (Técnico)</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://deepseek.com" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">DeepSeek
+                                    (Custo)</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                    </ul>
+                </div>
+
+                <!-- Categoria 2: Vídeos -->
+                <div class="glass p-8 rounded-3xl border-t-4 border-purple-500 glow-hover">
+                    <div class="flex items-center gap-3 mb-6">
+                        <i data-lucide="video" class="text-purple-400"></i>
+                        <h4 class="text-lg font-bold uppercase tracking-tight">Gerador de Vídeos</h4>
+                    </div>
+                    <ul class="space-y-4">
+                        <li><a href="https://openai.com/sora" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Sora</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://runwayml.com" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Runway</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://labs.google/videofx" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Video FX
+                                    (Labs)</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://lumalabs.ai/dream-machine" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Luma Dream
+                                    Machine</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                    </ul>
+                </div>
+
+                <!-- Categoria 3: Imagens -->
+                <div class="glass p-8 rounded-3xl border-t-4 border-pink-500 glow-hover">
+                    <div class="flex items-center gap-3 mb-6">
+                        <i data-lucide="image" class="text-pink-400"></i>
+                        <h4 class="text-lg font-bold uppercase tracking-tight">Gerador de Imagens</h4>
+                    </div>
+                    <ul class="space-y-4">
+                        <li><a href="https://midjourney.com" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span
+                                    class="text-slate-300 group-hover/item:text-white transition-colors">Midjourney</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://labs.google/nanobanana" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Nano
+                                    Banana</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://flux.ai" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Flux</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://labs.google/whisk" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Whisk
+                                    (Labs)</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                    </ul>
+                </div>
+
+                <!-- Categoria 4: UI & Design -->
+                <div class="glass p-8 rounded-3xl border-t-4 border-blue-500 glow-hover">
+                    <div class="flex items-center gap-3 mb-6">
+                        <i data-lucide="layout" class="text-blue-400"></i>
+                        <h4 class="text-lg font-bold uppercase tracking-tight">UI & Prototipagem</h4>
+                    </div>
+                    <ul class="space-y-4">
+                        <li><a href="https://stitch.google" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Stitch
+                                    (Google UI)</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://gamma.app" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Gamma</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://v0.dev" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">v0.dev</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://canva.com/magic" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Canva
+                                    Magic</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                    </ul>
+                </div>
+
+                <!-- Categoria 5: Pesquisa -->
+                <div class="glass p-8 rounded-3xl border-t-4 border-teal-500 glow-hover">
+                    <div class="flex items-center gap-3 mb-6">
+                        <i data-lucide="search" class="text-teal-400"></i>
+                        <h4 class="text-lg font-bold uppercase tracking-tight">Pesquisas & Análise</h4>
+                    </div>
+                    <ul class="space-y-4">
+                        <li><a href="https://perplexity.ai" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span
+                                    class="text-slate-300 group-hover/item:text-white transition-colors">Perplexity</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://notebooklm.google" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Notebook
+                                    LM</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://openai.com/searchgpt" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span
+                                    class="text-slate-300 group-hover/item:text-white transition-colors">SearchGPT</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://grok.x.ai" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Grok</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                    </ul>
+                </div>
+
+                <!-- Categoria 6: Agentes -->
+                <div class="glass p-8 rounded-3xl border-t-4 border-amber-500 glow-hover">
+                    <div class="flex items-center gap-3 mb-6">
+                        <i data-lucide="git-merge" class="text-amber-400"></i>
+                        <h4 class="text-lg font-bold uppercase tracking-tight">Agentes & Workflow</h4>
+                    </div>
+                    <ul class="space-y-4">
+                        <li><a href="#" class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors cursor-help"
+                                    title="Você está aqui!">Antigravity (IDE)</span>
+                                <i data-lucide="zap" class="w-3 h-3 text-amber-500"></i>
+                            </a></li>
+                        <li><a href="https://n8n.io" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">N8N
+                                    (Automação)</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://zapier.com/central" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Zapier
+                                    Central</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://copilot.microsoft.com" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Microsoft
+                                    Copilot</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                    </ul>
+                </div>
+
+                <!-- Categoria 7: Dev -->
+                <div class="glass p-8 rounded-3xl border-t-4 border-cyan-500 glow-hover">
+                    <div class="flex items-center gap-3 mb-6">
+                        <i data-lucide="code" class="text-cyan-400"></i>
+                        <h4 class="text-lg font-bold uppercase tracking-tight">Dev & Infraestrutura</h4>
+                    </div>
+                    <ul class="space-y-4">
+                        <li><a href="https://aistudio.google.com" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Google AI
+                                    Studio</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://cursor.sh" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Cursor</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://replit.com/agent" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Replit
+                                    Agent</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://cloud.google.com/vertex-ai" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Vertex
+                                    AI</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                    </ul>
+                </div>
+
+                <!-- Categoria 8: Produtividade -->
+                <div class="glass p-8 rounded-3xl border-t-4 border-lime-500 glow-hover">
+                    <div class="flex items-center gap-3 mb-6">
+                        <i data-lucide="check-circle" class="text-lime-400"></i>
+                        <h4 class="text-lg font-bold uppercase tracking-tight">Produtividade</h4>
+                    </div>
+                    <ul class="space-y-4">
+                        <li><a href="https://notion.ai" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Notion
+                                    AI</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://taskade.com" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span
+                                    class="text-slate-300 group-hover/item:text-white transition-colors">Taskade</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://xembly.com" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span class="text-slate-300 group-hover/item:text-white transition-colors">Xembly</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                        <li><a href="https://otter.ai" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center justify-between group/item">
+                                <span
+                                    class="text-slate-300 group-hover/item:text-white transition-colors">Otter.ai</span>
+                                <i data-lucide="external-link"
+                                    class="w-3 h-3 opacity-0 group-hover/item:opacity-50"></i>
+                            </a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Engenharia de Prompts (CAPTAR) -->
+        <section id="prompts" class="section-reveal">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-display font-extrabold mb-6">Engenharia de <a
+                        href="https://pt.wikipedia.org/wiki/Engenharia_de_prompt" target="_blank"
+                        rel="noopener noreferrer" class="text-indigo-500 italic hover:underline">Prompts</a></h2>
+                <p class="text-slate-400 max-w-2xl mx-auto italic">"Prompts simples dão respostas simples. A
+                    estruturação correta é a chave para o potencial máximo."</p>
+            </div>
+
+            <div class="glass p-12 rounded-[3rem] relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-8 opacity-10">
+                    <i data-lucide="terminal" class="w-32 h-32"></i>
+                </div>
+
+                <h3 class="text-2xl font-bold mb-12 flex items-center gap-3">
+                    <span class="bg-indigo-600 text-white px-3 py-1 rounded-lg">Técnica CAPTAR</span>
+                </h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3 text-indigo-400 font-black text-xl">
+                            <span
+                                class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center text-sm">C</span>
+                            Contexto
+                        </div>
+                        <p class="text-slate-400 text-sm">Defina o papel da IA (ex: "Aja como um professor
+                            especialista").</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3 text-purple-400 font-black text-xl">
+                            <span
+                                class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center text-sm">A</span>
+                            Ação
+                        </div>
+                        <p class="text-slate-400 text-sm">Descreva claramente o que deve ser feito.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3 text-pink-400 font-black text-xl">
+                            <span
+                                class="w-8 h-8 rounded-lg bg-pink-500/20 flex items-center justify-center text-sm">P</span>
+                            Passos
+                        </div>
+                        <p class="text-slate-400 text-sm">Forneça instruções detalhadas e sequenciais da tarefa.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3 text-blue-400 font-black text-xl">
+                            <span
+                                class="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-sm">T</span>
+                            Template
+                        </div>
+                        <p class="text-slate-400 text-sm">Especifique o formato de saída (ex: Markdown, Tabelas,
+                            Tópicos).</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3 text-teal-400 font-black text-xl">
+                            <span
+                                class="w-8 h-8 rounded-lg bg-teal-500/20 flex items-center justify-center text-sm">A</span>
+                            Abrangência
+                        </div>
+                        <p class="text-slate-400 text-sm">Adicione detalhes adicionais, limites e o que evitar.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-3 text-amber-400 font-black text-xl">
+                            <span
+                                class="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center text-sm">R</span>
+                            Refinamento
+                        </div>
+                        <p class="text-slate-400 text-sm">Ajuste a resposta através de interações sucessivas e diálogo.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Uso Prático -->
+        <section id="uso-pratico" class="section-reveal">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-display font-extrabold mb-6">O que pedir à <span
+                        class="text-indigo-500">IA?</span></h2>
+                <p class="text-slate-400">Possibilidades e conexões para a prática clínica.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <a href="https://site.cfp.org.br/wp-content/uploads/2019/09/resolucao2019_1.pdf" target="_blank"
+                    rel="noopener noreferrer"
+                    class="glass p-8 rounded-3xl group hover:bg-indigo-500/5 transition-colors border-l-4 border-indigo-500 block">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="p-3 bg-indigo-500/20 text-indigo-400 rounded-xl"><i data-lucide="file-text"></i>
+                        </div>
+                        <h4 class="text-xl font-bold">Documentação Clínica</h4>
+                    </div>
+                    <p class="text-slate-400 mb-6 italic">"Redija um modelo de encaminhamento clínico para um paciente
+                        com sintomas de ansiedade moderada, focando em avaliação psiquiátrica."</p>
+                    <div class="p-4 bg-slate-900/50 rounded-xl border border-white/5 text-sm text-indigo-300">
+                        <span class="font-bold block mb-1">Sugestão:</span> Peça sempre por uma estrutura base que
+                        você possa revisar e personalizar.
+                    </div>
+                </a>
+
+                <a href="https://pt.wikipedia.org/wiki/Escrita_acad%C3%AAmica" target="_blank" rel="noopener noreferrer"
+                    class="glass p-8 rounded-3xl group hover:bg-purple-500/5 transition-colors border-l-4 border-purple-500 block">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="p-3 bg-purple-500/20 text-purple-400 rounded-xl"><i data-lucide="scroll-text"></i>
+                        </div>
+                        <h4 class="text-xl font-bold">Resumo Acadêmico</h4>
+                    </div>
+                    <p class="text-slate-400 mb-6 italic">"Resuma os pontos principais deste artigo científico sobre TCC
+                        e neuroplasticidade, focando nas implicações práticas para o tratamento."</p>
+                    <div class="p-4 bg-slate-900/50 rounded-xl border border-white/5 text-sm text-purple-300">
+                        <span class="font-bold block mb-1">Sugestão:</span> Use ferramentas como Claude ou Gemini
+                        para analisar arquivos longos.
+                    </div>
+                </a>
+
+                <a href="https://pt.wikipedia.org/wiki/Psicoeduca%C3%A7%C3%A0o" target="_blank"
+                    rel="noopener noreferrer"
+                    class="glass p-8 rounded-3xl group hover:bg-pink-500/5 transition-colors border-l-4 border-pink-500 block">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="p-3 bg-pink-500/20 text-pink-400 rounded-xl"><i data-lucide="heart"></i></div>
+                        <h4 class="text-xl font-bold">Psicoeducação</h4>
+                    </div>
+                    <p class="text-slate-400 mb-6 italic">"Crie uma analogia simples e acolhedora para explicar o que é
+                        a 'janela de tolerância' emocional para uma criança de 8 anos."</p>
+                    <div class="p-4 bg-slate-900/50 rounded-xl border border-white/5 text-sm text-pink-300">
+                        <span class="font-bold block mb-1">Sugestão:</span> Especifique o público-alvo para
+                        ajustar o tom da resposta.
+                    </div>
+                </a>
+
+                <a href="https://www.gov.br/saude/pt-br/assuntos/saude-de-a-a-z/s/saude-mental" target="_blank"
+                    rel="noopener noreferrer"
+                    class="glass p-8 rounded-3xl group hover:bg-teal-500/5 transition-colors border-l-4 border-teal-500 block">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="p-3 bg-teal-500/20 text-teal-400 rounded-xl"><i data-lucide="map-pin"></i></div>
+                        <h4 class="text-xl font-bold">Recursos Comunitários</h4>
+                    </div>
+                    <p class="text-slate-400 mb-6 italic">"Pesquise políticas públicas e recursos de saúde mental
+                        gratuitos disponíveis no estado de São Paulo para vítimas de violência doméstica."</p>
+                    <div class="p-4 bg-slate-900/50 rounded-xl border border-white/5 text-sm text-teal-300">
+                        <span class="font-bold block mb-1">Sugestão:</span> O Perplexity é excelente para este
+                        tipo de pesquisa com fontes reais.
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Como Começar (Passo a Passo) -->
+        <section id="passo-a-passo" class="section-reveal">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1">
+                    <h2 class="text-4xl md:text-5xl font-display font-black mb-8 leading-tight">Caminhos para a <br />
+                        integração <span class="text-indigo-500 italic">ética</span></h2>
+
+                    <div class="space-y-4">
+                        <div
+                            class="glass p-6 rounded-2xl flex gap-6 items-start hover:border-indigo-500/50 transition-colors">
+                            <div
+                                class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center font-bold shrink-0">
+                                1</div>
+                            <div>
+                                <h4 class="text-lg font-bold mb-1">Auxiliar Criativo</h4>
+                                <p class="text-slate-400 text-sm">Use a IA como suporte à criatividade (brainstorming,
+                                    modelos de texto), nunca delegando a responsabilidade final.</p>
+                            </div>
+                        </div>
+                        <div
+                            class="glass p-6 rounded-2xl flex gap-6 items-start hover:border-indigo-500/50 transition-colors">
+                            <div
+                                class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center font-bold shrink-0">
+                                2</div>
+                            <div>
+                                <h4 class="text-lg font-bold mb-1">Pesquisa de Apoio</h4>
+                                <p class="text-slate-400 text-sm">Use para encontrar referências bibliográficas ou
+                                    recursos comunitários.</p>
+                            </div>
+                        </div>
+                        <div
+                            class="glass p-6 rounded-2xl flex gap-6 items-start hover:border-indigo-500/50 transition-colors">
+                            <div
+                                class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center font-bold shrink-0">
+                                3</div>
+                            <div>
+                                <h4 class="text-lg font-bold mb-1">Supervisão Humana</h4>
+                                <p class="text-slate-400 text-sm">Toda decisão deve passar por sua análise crítica. A IA
+                                    propõe, você valida e assina.</p>
+                            </div>
+                        </div>
+                        <div
+                            class="glass p-6 rounded-2xl flex gap-6 items-start hover:border-indigo-500/50 transition-colors">
+                            <div
+                                class="w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center font-bold shrink-0">
+                                4</div>
+                            <div>
+                                <h4 class="text-lg font-bold mb-1">Anonimização Total</h4>
+                                <p class="text-slate-400 text-sm italic underline">Nunca, sob nenhuma circunstância,
+                                    insira dados de pacientes identificáveis.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="order-1 lg:order-2 glass rounded-3xl overflow-hidden aspect-video lg:aspect-square relative group">
+                    <img src="./etica.png" alt="Integração Ética IA"
+                        class="absolute inset-0 w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-indigo-950 via-indigo-900/20 to-transparent">
+                    </div>
+                    <div class="absolute bottom-0 left-0 p-8">
+                        <p class="text-xl font-display font-medium leading-relaxed text-indigo-200 italic">
+                            A tecnologia não substitui o humano; ela expande a nossa capacidade de cuidar.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Removendo duplicata -->
+
+
+
+
+        <!-- Saúde Mental & IA: Oportunidades (NOVO) -->
+        <section id="oportunidades-saude" class="section-reveal">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-display font-extrabold mb-6">Saúde mental e IA: <span
+                        class="text-indigo-500 italic">Oportunidades</span></h2>
+                <p class="text-slate-400">Expandindo horizontes e ampliando o acesso ao cuidado.</p>
+            </div>
+
+            <div
+                class="grid grid-cols-1 lg:grid-cols-2 glass rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
+                <!-- Image Side -->
+                <div class="relative h-[400px] lg:h-full min-h-[500px]">
+                    <img src="./oportunidades.png" alt="Oportunidades em Saúde Mental"
+                        class="absolute inset-0 w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-indigo-900/20"></div>
+                </div>
+
+                <!-- Cards Side -->
+                <div class="p-8 lg:p-12 space-y-4 flex flex-col justify-center">
+                    <!-- Card 1: Triagem -->
+                    <a href="https://exame.abril.com.br/ciencia/plataforma-com-ia-ajuda-no-diagnostico-de-transtornos-mentais-na-atencao-primaria/"
+                        target="_blank" rel="noopener noreferrer"
+                        class="flex items-center gap-6 p-6 glass hover:bg-emerald-500/10 border-emerald-500/30 text-white rounded-[2rem] transition-all hover:scale-[1.02] group">
+                        <div
+                            class="w-14 h-14 bg-emerald-500/20 text-emerald-400 rounded-2xl flex items-center justify-center shrink-0">
+                            <i data-lucide="building-2" class="w-8 h-8"></i>
+                        </div>
+                        <span class="text-lg font-bold">Triagem em regiões sem psicólogos</span>
+                    </a>
+
+                    <!-- Card 2: Chatbots -->
+                    <a href="https://woebothealth.com/" target="_blank" rel="noopener noreferrer"
+                        class="flex items-center gap-6 p-6 glass hover:bg-cyan-500/10 border-cyan-500/30 text-white rounded-[2rem] transition-all hover:scale-[1.02]">
+                        <div
+                            class="w-14 h-14 bg-cyan-500/20 text-cyan-400 rounded-2xl flex items-center justify-center shrink-0">
+                            <i data-lucide="headset" class="w-8 h-8"></i>
+                        </div>
+                        <span class="text-lg font-bold">Chatbots de suporte emocional</span>
+                    </a>
+
+                    <!-- Card 3: Diagnóstico -->
+                    <a href="https://www.scielo.br/j/rdp/a/vS7VjFmFz9V9X6z8Z9XyH8b/" target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-6 p-6 glass hover:bg-rose-500/10 border-rose-500/30 text-white rounded-[2rem] transition-all hover:scale-[1.02]">
+                        <div
+                            class="w-14 h-14 bg-rose-500/20 text-rose-400 rounded-2xl flex items-center justify-center shrink-0">
+                            <i data-lucide="brain-circuit" class="w-8 h-8"></i>
+                        </div>
+                        <span class="text-lg font-bold">Auxílio no diagnóstico diferencial</span>
+                    </a>
+
+                    <!-- Card 4: Ferramentas -->
+                    <a href="https://neuronhealthtech.com.br/" target="_blank" rel="noopener noreferrer"
+                        class="flex items-center gap-6 p-6 glass hover:bg-slate-500/20 border-white/10 text-white rounded-[2rem] transition-all hover:scale-[1.02]">
+                        <div
+                            class="w-14 h-14 bg-white/10 text-slate-300 rounded-2xl flex items-center justify-center shrink-0">
+                            <i data-lucide="users" class="w-8 h-8"></i>
+                        </div>
+                        <span class="text-lg font-bold">Ferramentas de apoio para profissionais</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Saúde Mental & IA: Limites (Redesign) -->
+        <section id="riscos-expandidos" class="section-reveal">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-display font-extrabold mb-6">Saúde Mental & IA: <span
+                        class="text-red-500 italic">Limites</span></h2>
+                <p class="text-slate-400">Onde a tecnologia para e a humanidade começa.</p>
+            </div>
+
+            <div
+                class="grid grid-cols-1 lg:grid-cols-2 glass rounded-3xl overflow-hidden border border-white/5 shadow-2xl">
+                <!-- Image Side -->
+                <div class="relative h-[400px] lg:h-full min-h-[500px] order-1 lg:order-2">
+                    <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80&w=1000"
+                        alt="Limites da IA" class="absolute inset-0 w-full h-full object-cover opacity-60">
+                    <div class="absolute inset-0 bg-red-900/20"></div>
+                </div>
+
+                <!-- Cards Side -->
+                <div class="p-8 lg:p-12 space-y-4 flex flex-col justify-center order-2 lg:order-1">
+                    <!-- Card 1: Vínculo -->
+                    <a href="https://www.cnnbrasil.com.br/tecnologia/psicose-de-ia-fenomeno-preocupa-terapeutas-do-mundo-inteiro-entenda/"
+                        target="_blank" rel="noopener noreferrer"
+                        class="flex items-center gap-6 p-6 glass hover:bg-red-500/10 border-red-500/30 text-white rounded-[2rem] transition-all hover:scale-[1.02] group">
+                        <div
+                            class="w-14 h-14 bg-red-500/20 text-red-400 rounded-2xl flex items-center justify-center shrink-0">
+                            <i data-lucide="heart-off" class="w-8 h-8"></i>
+                        </div>
+                        <span class="text-lg font-bold">A fragilidade do vínculo terapêutico</span>
+                    </a>
+
+                    <!-- Card 2: Riscos Diagnósticos -->
+                    <a href="https://www.infomoney.com.br/saude/pacientes-raramente-extraem-informacao-medica-util-da-ia-mostram-estudos/"
+                        target="_blank" rel="noopener noreferrer"
+                        class="flex items-center gap-6 p-6 glass hover:bg-red-500/10 border-red-500/30 text-white rounded-[2rem] transition-all hover:scale-[1.02]">
+                        <div
+                            class="w-14 h-14 bg-red-500/20 text-red-400 rounded-2xl flex items-center justify-center shrink-0">
+                            <i data-lucide="alert-triangle" class="w-8 h-8"></i>
+                        </div>
+                        <span class="text-lg font-bold">Riscos de diagnósticos equivocados</span>
+                    </a>
+
+                    <!-- Card 3: Alucinações -->
+                    <a href="https://pt.wikipedia.org/wiki/Alucina%C3%A7%C3%A3o_(intelig%C3%AAncia_artificial)"
+                        target="_blank" rel="noopener noreferrer"
+                        class="flex items-center gap-6 p-6 glass hover:bg-red-500/10 border-red-500/30 text-white rounded-[2rem] transition-all hover:scale-[1.02]">
+                        <div
+                            class="w-14 h-14 bg-red-500/20 text-red-400 rounded-2xl flex items-center justify-center shrink-0">
+                            <i data-lucide="ghost" class="w-8 h-8"></i>
+                        </div>
+                        <span class="text-lg font-bold">Alucinações e fatos clínicos falsos</span>
+                    </a>
+
+                    <!-- Card 4: Privacidade -->
+                    <a href="https://www.jota.info/opiniao-e-analise/artigos/caso-grok-e-ampliacao-do-conceito-de-dado-sensivel-pela-anpd"
+                        target="_blank" rel="noopener noreferrer"
+                        class="flex items-center gap-6 p-6 glass hover:bg-red-500/10 border-red-500/30 text-white rounded-[2rem] transition-all hover:scale-[1.02]">
+                        <div
+                            class="w-14 h-14 bg-red-500/20 text-red-400 rounded-2xl flex items-center justify-center shrink-0">
+                            <i data-lucide="shield-alert" class="w-8 h-8"></i>
+                        </div>
+                        <span class="text-lg font-bold">Violação de privacidade e ética</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ética -->
+        <section id="etica" class="relative">
+            <div class="glass p-12 md:p-24 rounded-[3.5rem] relative overflow-hidden">
+                <div class="absolute inset-0 bg-indigo-600/10 pointer-events-none"></div>
+                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <div>
+                        <h2 class="text-4xl md:text-6xl font-display font-black mb-8 leading-tight">Privacidade & <span
+                                class="text-indigo-500">Ética</span></h2>
+                        <div class="space-y-8">
+                            <a href="https://pt.wikipedia.org/wiki/Lei_Geral_de_Prote%C3%A7%C3%A3o_de_Dados_Pessoais"
+                                target="_blank" rel="noopener noreferrer" class="flex gap-4 group cursor-pointer">
+                                <div
+                                    class="p-3 bg-red-500/20 text-red-500 rounded-xl h-fit group-hover:scale-110 transition-transform">
+                                    <i data-lucide="shield-off"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2">Dados Identificáveis</h4>
+                                    <p class="text-slate-400 leading-relaxed">NUNCA insira nomes ou registros reais em
+                                        IAs públicas. Anonimize TUDO.</p>
+                                </div>
+                            </a>
+                            <a href="https://openai.com/policies/privacy-policy" target="_blank"
+                                rel="noopener noreferrer" class="flex gap-4 group cursor-pointer">
+                                <div
+                                    class="p-3 bg-amber-500/20 text-amber-500 rounded-xl h-fit group-hover:scale-110 transition-transform">
+                                    <i data-lucide="alert-triangle"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2">Treinamento</h4>
+                                    <p class="text-slate-400 leading-relaxed">Saiba que suas conversas podem servir de
+                                        exemplo para futuros modelos.</p>
+                                </div>
+                            </a>
+                            <a href="https://site.cfp.org.br/" target="_blank" rel="noopener noreferrer"
+                                class="flex gap-4 group cursor-pointer">
+                                <div
+                                    class="p-3 bg-indigo-500/20 text-indigo-500 rounded-xl h-fit group-hover:scale-110 transition-transform">
+                                    <i data-lucide="book-marked"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xl font-bold mb-2">Conselho do CFP</h4>
+                                    <p class="text-slate-400 leading-relaxed">Fique atento às diretrizes brasileiras que
+                                        continuam em evolução.</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div
+                        class="flex flex-col items-center justify-center p-12 border-2 border-indigo-500/30 border-dashed rounded-3xl bg-indigo-500/5">
+                        <p class="text-2xl md:text-3xl font-display italic text-center leading-relaxed">
+                            "Um termômetro sofisticado pode medir a febre com precisão, <span
+                                class="text-indigo-500 underline">mas não abraça</span> o paciente."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="py-32 px-6 glass rounded-t-[4rem] text-center mt-48">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl md:text-5xl font-display font-black mb-12">Tecnologia a serviço <br /> de QUEM?</h2>
+            <p id="final-message"
+                class="text-2xl md:text-4xl text-slate-300 mb-20 leading-tight max-w-3xl mx-auto font-display font-medium opacity-0">
+                A tecnologia mais avançada ainda não aprendeu a fazer o que vocês fazem todos os dias:
+                <span
+                    class="block mt-4 text-5xl md:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400 font-black tracking-tighter">
+                    estar presente.
+                </span>
+            </p>
+            <img src="logoStartup_tr.png" alt="Logo Startup"
+                class="h-16 w-auto mx-auto mb-12 opacity-80 hover:opacity-100 transition-opacity">
+            <p class="text-sm font-black uppercase tracking-[0.4em] opacity-40">2026 • INTELIGÊNCIA ARTIFICIAL</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Init Lucide
+        lucide.createIcons();
+
+        // Cursor Logic
+        const cursor = document.getElementById('cursor');
+        const follower = document.getElementById('cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to(cursor, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0
+            });
+            gsap.to(follower, {
+                x: e.clientX,
+                y: e.clientY,
+                duration: 0.15
+            });
+        });
+
+        // Hover effect for interactive elements
+        const interactiveElements = document.querySelectorAll('a, button, .glow-hover, .cursor-pointer');
+        interactiveElements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                gsap.to(cursor, { scale: 3, backgroundColor: 'rgba(99, 102, 241, 0.3)' });
+                gsap.to(follower, { scale: 0.5, borderColor: '#fff' });
+            });
+            el.addEventListener('mouseleave', () => {
+                gsap.to(cursor, { scale: 1, backgroundColor: '#6366f1' });
+                gsap.to(follower, { scale: 1, borderColor: 'rgba(99, 102, 241, 0.5)' });
+            });
+        });
+
+        // GSAP Animations
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Section Reveal
+        gsap.utils.toArray('.section-reveal').forEach(section => {
+            gsap.to(section, {
+                opacity: 1,
+                y: 0,
+                duration: 1.2,
+                ease: 'expo.out',
+                scrollTrigger: {
+                    trigger: section,
+                    start: 'top 85%',
+                }
+            });
+        });
+
+        // Timeline progress
+        gsap.to('#timeline-progress', {
+            height: '100%',
+            scrollTrigger: {
+                trigger: '#historia',
+                start: 'top 40%',
+                end: 'bottom 40%',
+                scrub: 1
+            }
+        });
+
+        // Hero Particles (Simulated)
+        const heroParticles = document.getElementById('hero-particles');
+        for (let i = 0; i < 30; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'absolute bg-indigo-500/40 rounded-full';
+            const size = Math.random() * 4 + 2;
+            dot.style.width = `${size}px`;
+            dot.style.height = `${size}px`;
+            dot.style.left = `${Math.random() * 100}%`;
+            dot.style.top = `${Math.random() * 100}%`;
+            heroParticles.appendChild(dot);
+
+            // Floating animation
+            gsap.to(dot, {
+                y: -(Math.random() * 100 + 50),
+                x: (Math.random() - 0.5) * 50,
+                opacity: 0,
+                duration: Math.random() * 5 + 3,
+                repeat: -1,
+                ease: 'linear',
+                delay: Math.random() * 5
+            });
+        }
+
+        // Ambient Background follow mouse softly
+        document.addEventListener('mousemove', (e) => {
+            const x = (e.clientX / window.innerWidth - 0.5) * 20;
+            const y = (e.clientY / window.innerHeight - 0.5) * 20;
+            gsap.to('#ambient-bg', {
+                x: x,
+                y: y,
+                duration: 2,
+                ease: 'power2.out'
+            });
+        });
+
+        // Final Message Reveal Animation
+        gsap.to('#final-message', {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 2.5,
+            ease: "elastic.out(1, 0.5)",
+            scrollTrigger: {
+                trigger: '#final-message',
+                start: 'top 90%',
+            }
+        });
+
+        // Pulse effect for the gradient text
+        gsap.to('#final-message span', {
+            scale: 1.05,
+            duration: 2,
+            repeat: -1,
+            yoyo: true,
+            ease: "sine.inOut"
+        });
+    </script>
+</body>
+
+</html>
