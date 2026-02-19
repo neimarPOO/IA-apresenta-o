@@ -58,6 +58,17 @@
             cursor: none;
         }
 
+        @media (pointer: coarse) {
+            body {
+                cursor: auto;
+            }
+
+            .custom-cursor,
+            .custom-cursor-follower {
+                display: none !important;
+            }
+        }
+
         .glass {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(12px);
@@ -158,75 +169,116 @@
 
     <!-- Navigation -->
     <nav
-        class="fixed top-0 w-full z-50 px-6 py-4 glass mt-4 mx-auto max-w-7xl left-1/2 -translate-x-1/2 rounded-2xl flex justify-between items-center hidden md:flex">
+        class="fixed top-0 w-full z-50 px-4 md:px-6 py-4 glass mt-4 mx-auto max-w-7xl left-1/2 -translate-x-1/2 rounded-2xl flex justify-between items-center">
         <a href="#hero" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <img src="./logoStartup_tr.png" alt="Logo Startup" class="h-10 w-auto object-contain">
+            <img src="./logoStartup_tr.png" alt="Logo Startup" class="h-8 md:h-10 w-auto object-contain">
         </a>
-        <div class="flex gap-8 text-sm font-medium">
-            <a href="#autor" class="hover:text-indigo-400 transition-colors">Apresentação</a>
+
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex gap-8 text-sm font-medium">
+            <button onclick="openModal()" class="hover:text-indigo-400 transition-colors">Apresentação</button>
             <a href="#hero" class="hover:text-indigo-400 transition-colors">Início</a>
             <a href="#importancia" class="hover:text-indigo-400 transition-colors">Importância</a>
             <a href="#historia" class="hover:text-indigo-400 transition-colors">História</a>
             <a href="#conceitos" class="hover:text-indigo-400 transition-colors">Conceitos</a>
             <a href="#ferramentas" class="hover:text-indigo-400 transition-colors">Ferramentas</a>
-            <a href="#prompts" class="hover:text-indigo-400 transition-colors">Engenharia de Prompts</a>
-            <a href="#uso-pratico" class="hover:text-indigo-400 transition-colors">Uso Prático</a>
-            <a href="#passo-a-passo" class="hover:text-indigo-400 transition-colors">Como Começar</a>
             <a href="#etica" class="hover:text-indigo-400 transition-colors">Ética</a>
         </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-300 hover:text-white transition-colors">
+            <i data-lucide="menu" id="menu-icon"></i>
+        </button>
     </nav>
-    <main class="max-w-7xl mx-auto px-6 space-y-32">
-        <!-- Apresentação do Autor -->
-        <section id="autor" class="section-reveal flex items-center justify-center pt-32">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
-                <div class="relative group max-w-sm mx-auto">
-                    <div
-                        class="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000">
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu"
+        class="fixed inset-0 z-[60] bg-slate-950/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-all duration-300 md:hidden">
+        <button onclick="toggleMobileMenu()" class="absolute top-8 right-8 p-4 text-slate-400 hover:text-white">
+            <i data-lucide="x" class="w-10 h-10"></i>
+        </button>
+        <button onclick="closeMobileMenu(); openModal();"
+            class="text-3xl font-display font-bold hover:text-indigo-400">Apresentação</button>
+        <a href="#hero" onclick="closeMobileMenu()"
+            class="text-3xl font-display font-bold hover:text-indigo-400">Início</a>
+        <a href="#importancia" onclick="closeMobileMenu()"
+            class="text-3xl font-display font-bold hover:text-indigo-400">Importância</a>
+        <a href="#historia" onclick="closeMobileMenu()"
+            class="text-3xl font-display font-bold hover:text-indigo-400">História</a>
+        <a href="#ferramentas" onclick="closeMobileMenu()"
+            class="text-3xl font-display font-bold hover:text-indigo-400">Ferramentas</a>
+        <a href="#etica" onclick="closeMobileMenu()"
+            class="text-3xl font-display font-bold hover:text-indigo-400">Ética</a>
+    </div>
+    <!-- Modal de Apresentação -->
+    <div id="modal-autor"
+        class="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 opacity-0 pointer-events-none transition-all duration-500">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-slate-950/90 backdrop-blur-xl" onclick="closeModal()"></div>
+
+        <!-- Modal Content -->
+        <div
+            class="glass max-w-5xl w-full max-h-[90vh] overflow-y-auto rounded-[3rem] relative z-10 shadow-2xl border border-white/10 transform scale-95 transition-transform duration-500">
+            <!-- Close Button -->
+            <button onclick="closeModal()"
+                class="absolute top-8 right-8 p-3 bg-white/5 hover:bg-white/10 rounded-2xl text-slate-400 hover:text-white transition-all z-20">
+                <i data-lucide="x" class="w-8 h-8"></i>
+            </button>
+
+            <div class="p-6 md:p-16">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                    <div class="relative group max-w-sm mx-auto">
+                        <div
+                            class="absolute -inset-4 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl blur opacity-25 group-hover:opacity-40 transition duration-1000">
+                        </div>
+                        <img src="./neimar_machado.jpeg" alt="Neimar da Silva Machado"
+                            class="relative rounded-2xl w-full h-[400px] md:h-[500px] object-cover shadow-2xl border border-white/10">
                     </div>
-                    <img src="./neimar_machado.jpeg" alt="Neimar da Silva Machado"
-                        class="relative rounded-2xl w-full h-[500px] object-cover shadow-2xl border border-white/10">
-                </div>
-                <div>
-                    <h2 class="text-4xl md:text-6xl font-display font-black mb-8 leading-tight">
-                        Neimar da Silva <br /><span class="text-indigo-500 italic">Machado</span>
-                    </h2>
-                    <ul class="space-y-6">
-                        <li class="flex items-center gap-4 text-xl md:text-2xl text-slate-300">
-                            <div class="p-3 bg-pink-500/10 text-pink-500 rounded-xl">
-                                <i data-lucide="heart" class="w-6 h-6"></i>
-                            </div>
-                            Casado, pai do Raul e da Laura
-                        </li>
-                        <li class="flex items-center gap-4 text-xl md:text-2xl text-slate-300">
-                            <div class="p-3 bg-indigo-500/10 text-indigo-400 rounded-xl">
-                                <i data-lucide="graduation-cap" class="w-6 h-6"></i>
-                            </div>
-                            Educador de Tecnologia na Escola StartUP
-                        </li>
-                        <li class="flex items-center gap-4 text-xl md:text-2xl text-slate-300">
-                            <div class="p-3 bg-purple-500/10 text-purple-400 rounded-xl">
-                                <i data-lucide="database" class="w-6 h-6"></i>
-                            </div>
-                            Cientista de Dados
-                        </li>
-                        <li class="flex items-center gap-4 text-xl md:text-2xl text-slate-300">
-                            <div class="p-3 bg-amber-500/10 text-amber-500 rounded-xl">
-                                <i data-lucide="sparkles" class="w-6 h-6"></i>
-                            </div>
-                            Entusiasta da IA
-                        </li>
-                    </ul>
-                    <!-- LinkedIn Link -->
-                    <div class="mt-10">
-                        <a href="https://linkedin.com/in/neimarsmachado" target="_blank" rel="noopener noreferrer"
-                            class="inline-flex items-center gap-3 px-6 py-3 bg-[#0077b5] hover:bg-[#0077b5]/80 text-white rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg">
-                            <i data-lucide="linkedin" class="w-5 h-5"></i>
-                            Conectar no LinkedIn
-                        </a>
+                    <div>
+                        <h2 class="text-4xl md:text-6xl font-display font-black mb-8 leading-tight">
+                            Neimar da Silva <br /><span class="text-indigo-500 italic">Machado</span>
+                        </h2>
+                        <ul class="space-y-6">
+                            <li class="flex items-center gap-4 text-xl md:text-2xl text-slate-300">
+                                <div class="p-3 bg-pink-500/10 text-pink-500 rounded-xl">
+                                    <i data-lucide="heart" class="w-6 h-6"></i>
+                                </div>
+                                Casado, pai do Raul e da Laura
+                            </li>
+                            <li class="flex items-center gap-4 text-xl md:text-2xl text-slate-300">
+                                <div class="p-3 bg-indigo-500/10 text-indigo-400 rounded-xl">
+                                    <i data-lucide="graduation-cap" class="w-6 h-6"></i>
+                                </div>
+                                Educador de Tecnologia na Escola StartUP
+                            </li>
+                            <li class="flex items-center gap-4 text-xl md:text-2xl text-slate-300">
+                                <div class="p-3 bg-purple-500/10 text-purple-400 rounded-xl">
+                                    <i data-lucide="database" class="w-6 h-6"></i>
+                                </div>
+                                Cientista de Dados
+                            </li>
+                            <li class="flex items-center gap-4 text-xl md:text-2xl text-slate-300">
+                                <div class="p-3 bg-amber-500/10 text-amber-500 rounded-xl">
+                                    <i data-lucide="sparkles" class="w-6 h-6"></i>
+                                </div>
+                                Entusiasta da IA
+                            </li>
+                        </ul>
+                        <!-- LinkedIn Link -->
+                        <div class="mt-10">
+                            <a href="https://linkedin.com/in/neimarsmachado" target="_blank" rel="noopener noreferrer"
+                                class="inline-flex items-center gap-3 px-6 py-3 bg-[#0077b5] hover:bg-[#0077b5]/80 text-white rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg">
+                                <i data-lucide="linkedin" class="w-5 h-5"></i>
+                                Conectar no LinkedIn
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-6 space-y-24 md:space-y-48">
 
         <!-- Hero Section -->
         <header id="hero" class="min-h-screen flex flex-col items-center justify-center text-center px-4 relative">
@@ -236,7 +288,7 @@
 
             <div class="z-10 max-w-5xl">
 
-                <h1 class="text-6xl md:text-8xl font-display font-black mb-8 leading-tight">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-display font-black mb-8 leading-tight">
                     INTELIGÊNCIA <br />
                     <span
                         class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">ARTIFICIAL</span>
@@ -355,97 +407,102 @@
 
             <div class="relative space-y-24">
                 <div
-                    class="absolute left-1/2 -translate-x-1/2 top-0 w-1 bg-indigo-500/20 h-full rounded-full overflow-hidden">
+                    class="absolute left-8 md:left-1/2 -translate-x-1/2 top-0 w-1 bg-indigo-500/20 h-full rounded-full overflow-hidden">
                     <div id="timeline-progress" class="w-full bg-indigo-500 h-0 transition-all duration-300"></div>
                 </div>
 
                 <!-- Event 1 -->
-                <div class="relative flex items-center justify-between flex-col md:flex-row gap-8">
+                <div class="relative flex items-center justify-between flex-col md:flex-row gap-8 pl-12 md:pl-0">
                     <div class="md:w-[45%] text-right hidden md:block">
                         <span class="text-5xl font-display font-black text-indigo-500/20">1950</span>
                     </div>
                     <div
-                        class="z-10 w-6 h-6 rounded-full bg-indigo-600 border-4 border-slate-900 shadow-xl shadow-indigo-500/40">
+                        class="absolute left-8 md:static md:z-10 w-6 h-6 rounded-full bg-indigo-600 border-4 border-slate-900 shadow-xl shadow-indigo-500/40 -translate-x-1/2 md:translate-x-0">
                     </div>
                     <a href="https://pt.wikipedia.org/wiki/Alan_Turing" target="_blank" rel="noopener noreferrer"
-                        class="md:w-[45%] glass p-8 rounded-3xl hover:bg-white/5 transition-colors block group">
-                        <span class="text-indigo-500 font-bold mb-2 inline-block md:hidden">1950</span>
+                        class="w-full md:w-[45%] glass p-6 md:p-8 rounded-3xl hover:bg-white/5 transition-colors block group">
+                        <span class="text-indigo-500 font-bold mb-2 inline-block md:hidden text-lg">1950</span>
                         <h4 class="text-xl font-bold mb-2 flex items-center justify-between">Alan Turing <i
                                 data-lucide="external-link" class="w-4 h-4 opacity-0 group-hover:opacity-50"></i></h4>
-                        <p class="text-slate-400">Criação do Teste de Turing para definir máquinas pensantes.</p>
+                        <p class="text-slate-400 text-sm md:text-base">Criação do Teste de Turing para definir máquinas
+                            pensantes.</p>
                     </a>
                 </div>
 
                 <!-- Event 2 -->
-                <div class="relative flex items-center justify-between flex-col md:flex-row-reverse gap-8">
+                <div
+                    class="relative flex items-center justify-between flex-col md:flex-row-reverse gap-8 pl-12 md:pl-0">
                     <div class="md:w-[45%] text-left hidden md:block">
                         <span class="text-5xl font-display font-black text-indigo-500/20">1956</span>
                     </div>
                     <div
-                        class="z-10 w-6 h-6 rounded-full bg-indigo-600 border-4 border-slate-900 shadow-xl shadow-indigo-500/40">
+                        class="absolute left-8 md:static md:z-10 w-6 h-6 rounded-full bg-indigo-600 border-4 border-slate-900 shadow-xl shadow-indigo-500/40 -translate-x-1/2 md:translate-x-0">
                     </div>
                     <a href="https://home.dartmouth.edu/about/artificial-intelligence-ai-coined-dartmouth"
                         target="_blank" rel="noopener noreferrer"
-                        class="md:w-[45%] glass p-8 rounded-3xl hover:bg-white/5 transition-colors block group text-left">
-                        <span class="text-indigo-500 font-bold mb-2 inline-block md:hidden">1956</span>
+                        class="w-full md:w-[45%] glass p-6 md:p-8 rounded-3xl hover:bg-white/5 transition-colors block group text-left">
+                        <span class="text-indigo-500 font-bold mb-2 inline-block md:hidden text-lg">1956</span>
                         <h4 class="text-xl font-bold mb-2 flex items-center justify-between">Conferência de Dartmouth <i
                                 data-lucide="external-link" class="w-4 h-4 opacity-0 group-hover:opacity-50"></i></h4>
-                        <p class="text-slate-400">Nascimento oficial do termo "Inteligência Artificial".</p>
+                        <p class="text-slate-400 text-sm md:text-base">Nascimento oficial do termo "Inteligência
+                            Artificial".</p>
                     </a>
                 </div>
 
                 <!-- Event 3: Deep Blue (1997) -->
-                <div class="relative flex items-center justify-between flex-col md:flex-row gap-8">
+                <div class="relative flex items-center justify-between flex-col md:flex-row gap-8 pl-12 md:pl-0">
                     <div class="md:w-[45%] text-right hidden md:block">
                         <span class="text-5xl font-display font-black text-indigo-500/20">1997</span>
                     </div>
                     <div
-                        class="z-10 w-6 h-6 rounded-full bg-indigo-600 border-4 border-slate-900 shadow-xl shadow-indigo-500/40">
+                        class="absolute left-8 md:static md:z-10 w-6 h-6 rounded-full bg-indigo-600 border-4 border-slate-900 shadow-xl shadow-indigo-500/40 -translate-x-1/2 md:translate-x-0">
                     </div>
                     <a href="https://www.chess.com/pt/article/view/kasparov-vs-deep-blue-o-confronto-que-mudou-a-historia"
                         target="_blank" rel="noopener noreferrer"
-                        class="md:w-[45%] glass p-8 rounded-3xl hover:bg-white/5 transition-colors block group">
-                        <span class="text-indigo-500 font-bold mb-2 inline-block md:hidden">1997</span>
+                        class="w-full md:w-[45%] glass p-6 md:p-8 rounded-3xl hover:bg-white/5 transition-colors block group">
+                        <span class="text-indigo-500 font-bold mb-2 inline-block md:hidden text-lg">1997</span>
                         <h4 class="text-xl font-bold mb-2 flex items-center justify-between">Deep Blue vs Kasparov <i
                                 data-lucide="external-link" class="w-4 h-4 opacity-0 group-hover:opacity-50"></i></h4>
-                        <p class="text-slate-400">Pela primeira vez, um computador vence o campeão mundial de xadrez.
-                        </p>
+                        <p class="text-slate-400 text-sm md:text-base">Pela primeira vez, um computador vence o campeão
+                            mundial de xadrez.</p>
                     </a>
                 </div>
 
                 <!-- Event 4: Deep Learning (2012) -->
-                <div class="relative flex items-center justify-between flex-col md:flex-row-reverse gap-8">
+                <div
+                    class="relative flex items-center justify-between flex-col md:flex-row-reverse gap-8 pl-12 md:pl-0">
                     <div class="md:w-[45%] text-left hidden md:block">
                         <span class="text-5xl font-display font-black text-indigo-500/20">2012</span>
                     </div>
                     <div
-                        class="z-10 w-6 h-6 rounded-full bg-indigo-600 border-4 border-slate-900 shadow-xl shadow-indigo-500/40">
+                        class="absolute left-8 md:static md:z-10 w-6 h-6 rounded-full bg-indigo-600 border-4 border-slate-900 shadow-xl shadow-indigo-500/40 -translate-x-1/2 md:translate-x-0">
                     </div>
                     <a href="https://pt.wikipedia.org/wiki/Aprendizagem_profunda" target="_blank"
                         rel="noopener noreferrer"
-                        class="md:w-[45%] glass p-8 rounded-3xl hover:bg-white/5 transition-colors block group text-left">
-                        <span class="text-indigo-500 font-bold mb-2 inline-block md:hidden">2012</span>
+                        class="w-full md:w-[45%] glass p-6 md:p-8 rounded-3xl hover:bg-white/5 transition-colors block group text-left">
+                        <span class="text-indigo-500 font-bold mb-2 inline-block md:hidden text-lg">2012</span>
                         <h4 class="text-xl font-bold mb-2 flex items-center justify-between">Revolução Deep Learning <i
                                 data-lucide="external-link" class="w-4 h-4 opacity-0 group-hover:opacity-50"></i></h4>
-                        <p class="text-slate-400">O projeto AlexNet prova o poder das redes neurais profundas na visão
-                            computacional.</p>
+                        <p class="text-slate-400 text-sm md:text-base">O projeto AlexNet prova o poder das redes neurais
+                            profundas na visão computacional.</p>
                     </a>
                 </div>
 
                 <!-- Event 3 -->
-                <div class="relative flex items-center justify-between flex-col md:flex-row gap-8">
+                <div class="relative flex items-center justify-between flex-col md:flex-row gap-8 pl-12 md:pl-0">
                     <div class="md:w-[45%] text-right hidden md:block">
                         <span class="text-5xl font-display font-black text-indigo-500/20">2022</span>
                     </div>
                     <div
-                        class="z-10 w-6 h-6 rounded-full bg-indigo-600 border-4 border-slate-900 shadow-xl shadow-indigo-500/40">
+                        class="absolute left-8 md:static md:z-10 w-6 h-6 rounded-full bg-indigo-600 border-4 border-slate-900 shadow-xl shadow-indigo-500/40 -translate-x-1/2 md:translate-x-0">
                     </div>
                     <a href="https://pt.wikipedia.org/wiki/ChatGPT" target="_blank" rel="noopener noreferrer"
-                        class="md:w-[45%] glass p-8 rounded-3xl hover:bg-white/5 transition-colors block group">
-                        <span class="text-indigo-500 font-bold mb-2 inline-block md:hidden">2022</span>
+                        class="w-full md:w-[45%] glass p-6 md:p-8 rounded-3xl hover:bg-white/5 transition-colors block group">
+                        <span class="text-indigo-500 font-bold mb-2 inline-block md:hidden text-lg">2022</span>
                         <h4 class="text-xl font-bold mb-2 flex items-center justify-between">Revolução ChatGPT <i
                                 data-lucide="external-link" class="w-4 h-4 opacity-0 group-hover:opacity-50"></i></h4>
-                        <p class="text-slate-400">A IA torna-se acessível e onipresente para o grande público.</p>
+                        <p class="text-slate-400 text-sm md:text-base">A IA torna-se acessível e onipresente para o
+                            grande público.</p>
                     </a>
                 </div>
             </div>
@@ -516,12 +573,12 @@
                 <!-- Visual Analogy -->
                 <div class="relative">
                     <div
-                        class="glass p-1 rounded-3xl overflow-hidden aspect-square flex items-center justify-center relative">
+                        class="glass p-1 rounded-3xl overflow-hidden aspect-video md:aspect-square flex items-center justify-center relative">
                         <div class="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 to-transparent"></div>
-                        <div class="text-center p-12">
+                        <div class="text-center p-8 md:p-12">
                             <i data-lucide="brain-circuit"
-                                class="w-32 h-32 text-indigo-500 mx-auto mb-8 animate-pulse"></i>
-                            <p class="text-2xl font-display font-medium leading-relaxed italic">
+                                class="w-20 md:w-32 h-20 md:h-32 text-indigo-500 mx-auto mb-6 md:mb-8 animate-pulse"></i>
+                            <p class="text-xl md:text-2xl font-display font-medium leading-relaxed italic">
                                 "É como um estagiário incrivelmente rápido que leu bilhões de prontuários, mas não tem
                                 empatia nata."
                             </p>
@@ -1083,7 +1140,7 @@
                 </div>
 
                 <!-- Cards Side -->
-                <div class="p-8 lg:p-12 space-y-4 flex flex-col justify-center">
+                <div class="p-6 lg:p-12 space-y-4 flex flex-col justify-center">
                     <!-- Card 1: Triagem -->
                     <a href="https://exame.abril.com.br/ciencia/plataforma-com-ia-ajuda-no-diagnostico-de-transtornos-mentais-na-atencao-primaria/"
                         target="_blank" rel="noopener noreferrer"
@@ -1392,6 +1449,59 @@
             yoyo: true,
             ease: "sine.inOut"
         });
+
+        // Modal Logic
+        const modal = document.getElementById('modal-autor');
+        const modalContent = modal.querySelector('.glass');
+
+        function openModal() {
+            modal.classList.remove('pointer-events-none');
+            gsap.to(modal, { opacity: 1, duration: 0.5 });
+            gsap.to(modalContent, { scale: 1, duration: 0.5, ease: "back.out(1.7)" });
+            document.body.style.overflow = 'hidden'; // Prevent scroll
+        }
+
+        function closeModal() {
+            gsap.to(modal, {
+                opacity: 0, duration: 0.4, onComplete: () => {
+                    modal.classList.add('pointer-events-none');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            gsap.to(modalContent, { scale: 0.95, duration: 0.4 });
+        }
+
+        // Close on ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+                closeMobileMenu();
+            }
+        });
+
+        // Mobile Menu Logic
+        const mobileMenu = document.getElementById('mobile-menu');
+        function toggleMobileMenu() {
+            const isOpen = mobileMenu.classList.contains('opacity-100');
+            if (isOpen) {
+                closeMobileMenu();
+            } else {
+                mobileMenu.classList.remove('pointer-events-none');
+                mobileMenu.classList.add('opacity-100');
+                gsap.from('#mobile-menu button, #mobile-menu a', {
+                    y: 20,
+                    opacity: 0,
+                    duration: 0.5,
+                    stagger: 0.1,
+                    ease: "power2.out"
+                });
+            }
+        }
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('opacity-100');
+            mobileMenu.classList.add('pointer-events-none');
+        }
     </script>
 </body>
 
